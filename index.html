@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dekouvri — Unearthing the Silence. Discovering Our Peace.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--i:#1B1F4B;--il:#2A2F6B;--id:#060A20;--g:#D4A017;--gl:#F0BA2A;--gp:#F9ECC8;--t:#C4622D;--tl:#D97A45;--tp:#F5DDD0;--cr:#FAF6F0;--w:#FFFFFF;--m:#4A4A6A;--lt:#9A9AB0;}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:var(--cr);color:var(--i);overflow-x:hidden;}
+
+/* Custom Cursor - Desktop Only */
+@media(min-width:1025px){
+  body{cursor:none;}
+  #cur{position:fixed;width:8px;height:8px;background:var(--g);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform 0.06s;mix-blend-mode:difference;}
+  #cur2{position:fixed;width:32px;height:32px;border:1px solid rgba(212,160,23,0.6);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:transform 0.22s cubic-bezier(0.2,1,0.3,1),width 0.2s,height 0.2s,border-color 0.2s;}
+}
+@media(max-width:1024px){
+  #cur,#cur2{display:none;}
+}
+
+#prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--t),var(--g));z-index:9999;width:0%;transition:width 0.08s;}
+.grain{position:fixed;inset:0;pointer-events:none;z-index:9990;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:120px;}
+.page{display:none;}
+.page.active{display:block;animation:pin 0.45s ease both;}
+@keyframes pin{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@keyframes fup{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:none;}}
+@keyframes fin{from{opacity:0;}to{opacity:1;}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;justify-content:space-between;align-items:center;padding:1.3rem 4rem;transition:all 0.5s cubic-bezier(0.16,1,0.3,1);}
+nav.scrolled{background:rgba(6,10,32,0.97);backdrop-filter:blur(20px);padding:0.75rem 4rem;border-bottom:1px solid rgba(212,160,23,0.1);}
+.nlogo{height:50px;display:flex;align-items:center;cursor:pointer;}
+.nlogo svg{height:50px;width:auto;}
+.nlinks{display:flex;gap:2rem;list-style:none;align-items:center;}
+.nlinks a{color:rgba(255,255,255,0.72);text-decoration:none;font-size:0.7rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;transition:color 0.2s;cursor:pointer;}
+.nlinks a:hover{color:var(--g);}
+.ncta{background:var(--g)!important;color:var(--id)!important;padding:0.5rem 1.3rem;border-radius:1px;font-weight:600!important;}
+.menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.5rem;}
+.menu-toggle span{display:block;width:25px;height:2px;background:var(--g);margin:5px 0;transition:all 0.3s;}
+
+/* HERO */
+#home{min-height:100vh;background:var(--id);display:grid;grid-template-columns:1fr 1fr;align-items:center;position:relative;overflow:hidden;}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse 75% 65% at 68% 48%,rgba(196,98,45,0.2) 0%,transparent 60%),radial-gradient(ellipse 55% 75% at 12% 62%,rgba(212,160,23,0.09) 0%,transparent 55%),linear-gradient(145deg,#020510 0%,#0C1028 50%,#1B1F4B 100%);}
+.hglow{position:absolute;right:4%;top:50%;transform:translateY(-50%);width:580px;height:580px;border-radius:50%;background:radial-gradient(circle,rgba(212,160,23,0.13) 0%,rgba(196,98,45,0.05) 45%,transparent 70%);animation:hpulse 6s ease-in-out infinite;pointer-events:none;}
+@keyframes hpulse{0%,100%{transform:translateY(-50%) scale(1);opacity:0.7;}50%{transform:translateY(-50%) scale(1.07);opacity:1;}}
+.hline{position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(212,160,23,0.08) 25%,rgba(212,160,23,0.08) 75%,transparent);pointer-events:none;}
+.htxt{position:relative;z-index:2;padding:9rem 2rem 5rem 4rem;animation:fup 0.9s cubic-bezier(0.16,1,0.3,1) 0.4s both;}
+.hey{font-size:0.65rem;font-weight:500;letter-spacing:0.32em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:1rem;margin-bottom:2.2rem;opacity:0;animation:fup 0.5s ease 1.3s forwards;}
+.hey::before{content:'';width:30px;height:1px;background:var(--g);}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5.2vw,5.2rem);font-weight:300;color:var(--w);line-height:1.06;margin-bottom:1.8rem;}
+.l1{display:block;opacity:0;animation:fup 0.7s cubic-bezier(0.16,1,0.3,1) 1.5s forwards;}
+.l2{display:block;font-style:italic;color:var(--g);font-weight:400;opacity:0;animation:fup 0.7s cubic-bezier(0.16,1,0.3,1) 1.7s forwards;}
+.hsub{font-size:0.98rem;color:rgba(255,255,255,0.52);line-height:1.82;max-width:400px;margin-bottom:3rem;font-weight:300;opacity:0;animation:fup 0.5s ease 1.95s forwards;}
+.hbtns{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fup 0.5s ease 2.1s forwards;}
+.bg{display:inline-block;background:var(--g);color:var(--id);padding:0.95rem 2.1rem;border:none;border-radius:1px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;text-decoration:none;}
+.bg:hover{background:var(--gl);transform:translateY(-3px);box-shadow:0 14px 36px rgba(212,160,23,0.28);}
+.bk{display:inline-block;background:transparent;color:rgba(255,255,255,0.75);padding:0.95rem 1.9rem;border:1px solid rgba(255,255,255,0.22);border-radius:1px;font-family:'Jost',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:all 0.25s;text-decoration:none;}
+.bk:hover{border-color:var(--tl);color:var(--tl);transform:translateY(-3px);}
+.himg{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;padding:9rem 4rem 5rem 1rem;opacity:0;animation:fin 1.2s ease 0.6s forwards;}
+.hstage{position:relative;width:430px;height:430px;display:flex;align-items:center;justify-content:center;}
+.halo{position:absolute;inset:-50px;border-radius:50%;background:radial-gradient(circle,rgba(212,160,23,0.14) 0%,rgba(196,98,45,0.05) 50%,transparent 70%);animation:halopulse 5s ease-in-out infinite;}
+@keyframes halopulse{0%,100%{opacity:0.6;transform:scale(1);}50%{opacity:1;transform:scale(1.05);}}
+.r1{position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(212,160,23,0.14);animation:rpulse 5s ease-in-out infinite;}
+.r2{position:absolute;inset:55px;border-radius:50%;border:1px dashed rgba(212,160,23,0.08);animation:rpulse 5s ease-in-out 1.2s infinite;}
+@keyframes rpulse{0%,100%{opacity:0.3;}50%{opacity:0.85;}}
+.hsvg{position:relative;z-index:2;width:340px;height:auto;animation:float 7s ease-in-out infinite;filter:drop-shadow(0 0 28px rgba(212,160,23,0.22));}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);}}
+.mpath{fill:var(--g);animation:mpulse 4s ease-in-out infinite;}
+@keyframes mpulse{0%,100%{opacity:0.85;}50%{opacity:1;}}
+
+/* SECTIONS */
+.sec{padding:7rem 4rem;position:relative;}
+.sec.dk{background:var(--id);color:var(--cr);}
+.sec.lt{background:var(--cr);color:var(--i);}
+.sec.gold{background:linear-gradient(135deg,var(--g) 0%,var(--gl) 100%);color:var(--id);}
+.stitle{font-size:0.65rem;font-weight:600;letter-spacing:0.28em;text-transform:uppercase;color:var(--g);margin-bottom:1.2rem;display:flex;align-items:center;gap:1rem;}
+.stitle::before{content:'';width:28px;height:1px;background:var(--g);}
+.sec.dk .stitle{color:var(--g);}
+.sec.lt .stitle{color:var(--t);}
+.sec.gold .stitle{color:var(--id);}
+h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.8vw,3.8rem);font-weight:300;line-height:1.15;margin-bottom:2.2rem;}
+.sec.dk h2{color:var(--w);}
+.sec.lt h2{color:var(--i);}
+.sec.gold h2{color:var(--id);}
+h3{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;margin-bottom:1rem;}
+.intro{font-size:1.08rem;line-height:1.8;max-width:720px;margin-bottom:2.5rem;font-weight:300;}
+.sec.dk .intro{color:rgba(255,255,255,0.68);}
+.sec.lt .intro{color:var(--m);}
+.sec.gold .intro{color:rgba(6,10,32,0.75);}
+
+/* OUR ROOTS PAGE */
+.roots-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;}
+.roots-card{padding:3rem;background:rgba(255,255,255,0.03);border:1px solid rgba(212,160,23,0.08);border-radius:2px;}
+.roots-card h3{color:var(--g);margin-bottom:1.5rem;}
+.roots-card p{color:rgba(255,255,255,0.65);line-height:1.85;margin-bottom:1.2rem;}
+.symbolism{margin-top:5rem;padding:4rem;background:linear-gradient(135deg,rgba(212,160,23,0.08),rgba(196,98,45,0.05));border-radius:2px;border:1px solid rgba(212,160,23,0.12);}
+.symbolism h3{color:var(--g);font-size:2rem;margin-bottom:2.5rem;}
+.symbol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem;}
+.symbol-item{text-align:center;}
+.symbol-icon{font-size:3rem;margin-bottom:1rem;color:var(--g);}
+.symbol-item h4{color:var(--w);font-size:1.1rem;margin-bottom:0.8rem;font-weight:600;}
+.symbol-item p{color:rgba(255,255,255,0.58);font-size:0.92rem;line-height:1.65;}
+
+/* PODCAST PAGE */
+.podcast-hero{background:linear-gradient(135deg,var(--id),var(--il));padding:5rem 4rem;text-align:center;border-bottom:1px solid rgba(212,160,23,0.15);}
+.podcast-player{max-width:800px;margin:0 auto 4rem;background:rgba(255,255,255,0.05);padding:2rem;border-radius:2px;border:1px solid rgba(212,160,23,0.12);}
+.episodes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2.5rem;margin-top:3rem;}
+.episode-card{background:rgba(255,255,255,0.03);border:1px solid rgba(212,160,23,0.08);border-radius:2px;padding:2rem;transition:all 0.3s;}
+.episode-card:hover{transform:translateY(-5px);border-color:var(--g);box-shadow:0 12px 32px rgba(212,160,23,0.15);}
+.episode-card h4{color:var(--g);font-size:1.3rem;margin-bottom:1rem;}
+.episode-card p{color:rgba(255,255,255,0.6);line-height:1.7;font-size:0.95rem;}
+.submit-box{margin-top:5rem;padding:4rem;background:linear-gradient(135deg,var(--t),var(--tl));border-radius:2px;text-align:center;color:var(--w);}
+.submit-box h3{color:var(--w);font-size:2.2rem;margin-bottom:1.2rem;}
+.submit-box p{font-size:1.1rem;margin-bottom:2rem;opacity:0.9;}
+
+/* COLLECTION PAGE */
+.collection-intro{text-align:center;max-width:680px;margin:0 auto 5rem;}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:3rem;}
+.product-card{background:var(--w);border-radius:2px;overflow:hidden;box-shadow:0 4px 20px rgba(27,31,75,0.08);transition:all 0.35s;}
+.product-card:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(27,31,75,0.15);}
+.product-img{width:100%;height:320px;background:linear-gradient(135deg,var(--gp),var(--tp));display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--i);position:relative;overflow:hidden;}
+.product-img::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 40%,rgba(212,160,23,0.15),transparent 60%);}
+.product-info{padding:2rem;}
+.product-tag{font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--t);margin-bottom:0.8rem;}
+.product-info h4{font-size:1.5rem;color:var(--i);margin-bottom:1rem;font-weight:600;}
+.product-info p{color:var(--m);line-height:1.7;margin-bottom:1.5rem;font-size:0.95rem;}
+.product-price{font-size:1.3rem;font-weight:600;color:var(--g);margin-bottom:1.5rem;}
+
+/* SUPPORT PAGE */
+.donation-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2.5rem;margin-top:4rem;}
+.tier-card{background:rgba(255,255,255,0.04);border:2px solid rgba(212,160,23,0.12);border-radius:2px;padding:3rem 2rem;text-align:center;transition:all 0.3s;cursor:pointer;}
+.tier-card:hover{border-color:var(--g);background:rgba(212,160,23,0.06);transform:translateY(-5px);}
+.tier-amount{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:600;color:var(--g);margin-bottom:1rem;}
+.tier-name{font-size:1.1rem;font-weight:600;color:var(--w);margin-bottom:1.2rem;letter-spacing:0.05em;}
+.tier-desc{color:rgba(255,255,255,0.65);line-height:1.75;font-size:0.95rem;}
+.impact-note{margin-top:4rem;padding:2.5rem;background:linear-gradient(135deg,rgba(196,98,45,0.12),rgba(212,160,23,0.08));border-radius:2px;border-left:4px solid var(--g);}
+.impact-note p{color:rgba(255,255,255,0.75);font-size:1.05rem;line-height:1.8;}
+
+/* TERMS & PRIVACY PAGES */
+.legal-page{max-width:900px;margin:0 auto;padding:4rem 2rem;}
+.legal-page h2{margin-top:3rem;margin-bottom:1.5rem;color:var(--i);}
+.legal-page h3{margin-top:2.5rem;margin-bottom:1rem;color:var(--il);font-size:1.4rem;}
+.legal-page p,.legal-page ul{color:var(--m);line-height:1.85;margin-bottom:1.5rem;font-size:1rem;}
+.legal-page ul{padding-left:2rem;}
+.legal-page li{margin-bottom:0.8rem;}
+.legal-page strong{color:var(--i);font-weight:600;}
+.legal-page em{color:var(--t);font-style:italic;}
+
+/* CONTACT PAGE */
+.contact-hero{background:linear-gradient(135deg,var(--id),var(--il));padding:4rem 4rem 2rem;text-align:center;color:var(--w);}
+.contact-hero h1{margin-bottom:0.8rem;}
+.contact-hero .creole{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.3rem;color:var(--g);margin-bottom:1.5rem;}
+.ctgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;margin-top:4rem;}
+.stlead{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--g);margin-bottom:1.5rem;font-weight:400;}
+.stlead em{font-style:italic;color:var(--t);}
+.stintro{color:var(--m);line-height:1.85;margin-bottom:2.5rem;font-size:1.02rem;}
+.flbl{display:block;font-size:0.85rem;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--i);margin-bottom:0.6rem;margin-top:1.5rem;}
+.finput{width:100%;padding:0.95rem 1.2rem;border:1px solid rgba(27,31,75,0.18);border-radius:2px;font-family:'Jost',sans-serif;font-size:0.95rem;background:var(--w);color:var(--i);transition:all 0.25s;}
+.finput:focus{outline:none;border-color:var(--g);box-shadow:0 0 0 3px rgba(212,160,23,0.1);}
+textarea.finput{min-height:150px;resize:vertical;}
+.fhint{font-size:0.82rem;color:var(--m);font-style:italic;margin-top:1rem;padding:0.8rem 1rem;background:rgba(212,160,23,0.05);border-left:3px solid var(--g);border-radius:2px;}
+.perms{margin-top:1.5rem;display:flex;align-items:start;gap:0.8rem;}
+.perms input[type="checkbox"]{width:18px;height:18px;margin-top:2px;cursor:pointer;accent-color:var(--g);}
+.perms label{font-size:0.88rem;color:var(--m);line-height:1.6;cursor:pointer;}
+.ccard{background:var(--w);padding:2rem;border-radius:2px;box-shadow:0 4px 16px rgba(27,31,75,0.08);margin-bottom:2rem;}
+.ccard h3{color:var(--i);font-size:1.4rem;margin-bottom:1rem;}
+.ccard p{color:var(--m);line-height:1.75;margin-bottom:1.2rem;}
+.emlink{display:inline-flex;align-items:center;gap:0.7rem;color:var(--g);text-decoration:none;font-weight:600;transition:color 0.2s;}
+.emlink:hover{color:var(--gl);}
+.csocs{display:flex;gap:1rem;flex-wrap:wrap;}
+.csoc{display:inline-block;padding:0.6rem 1.3rem;background:var(--i);color:var(--w);border-radius:2px;font-size:0.8rem;font-weight:600;text-decoration:none;transition:all 0.25s;}
+.csoc:hover{background:var(--g);color:var(--id);transform:translateY(-2px);}
+.loccrd{background:linear-gradient(135deg,var(--gp),var(--tp));padding:2rem;border-radius:2px;margin-bottom:2rem;border:1px solid rgba(212,160,23,0.2);}
+.loccrd h3{color:var(--i);margin-bottom:1rem;}
+.loccrd p{color:var(--m);line-height:1.8;}
+.loccrd a{color:var(--g);font-weight:600;text-decoration:none;}
+.loccrd a:hover{text-decoration:underline;}
+.cricrd{background:linear-gradient(135deg,var(--t),var(--tl));padding:2rem;border-radius:2px;color:var(--w);}
+.ctag{font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:1rem;opacity:0.9;}
+.cricrd p{line-height:1.75;font-size:0.95rem;}
+.cricrd strong{font-weight:700;}
+.cricrd em{font-style:italic;opacity:0.85;}
+
+/* FOOTER */
+footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;}
+.fcontent{max-width:1400px;margin:0 auto;}
+.ftop{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem;padding-bottom:4rem;border-bottom:1px solid rgba(212,160,23,0.12);}
+.fbrand{max-width:340px;}
+.fbrand h4{color:var(--w);font-size:1.3rem;margin-bottom:1rem;font-weight:600;}
+.fbrand p{line-height:1.75;margin-bottom:1.5rem;font-size:0.92rem;}
+.fsoc{display:flex;gap:1rem;margin-top:1.5rem;}
+.fsoc a{display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:rgba(255,255,255,0.05);border:1px solid rgba(212,160,23,0.15);border-radius:50%;color:var(--g);text-decoration:none;transition:all 0.25s;font-size:0.85rem;}
+.fsoc a:hover{background:var(--g);color:var(--id);border-color:var(--g);}
+.fcol h5{color:var(--w);font-size:0.85rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;margin-bottom:1.5rem;}
+.fcol a{display:block;color:rgba(255,255,255,0.62);text-decoration:none;margin-bottom:0.9rem;font-size:0.9rem;transition:color 0.2s;cursor:pointer;}
+.fcol a:hover{color:var(--g);}
+.crisis-box{background:linear-gradient(135deg,rgba(196,98,45,0.15),rgba(212,160,23,0.1));padding:2.5rem;border-radius:2px;border:1px solid rgba(212,160,23,0.2);margin-bottom:3rem;}
+.crisis-box h4{color:var(--w);font-size:1.5rem;margin-bottom:0.5rem;}
+.crisis-creole{color:var(--g);font-style:italic;font-size:1.05rem;margin-bottom:1.2rem;font-family:'Cormorant Garamond',serif;}
+.crisis-box p{color:rgba(255,255,255,0.75);line-height:1.8;font-size:1rem;}
+.crisis-box strong{color:var(--gl);font-weight:700;font-size:1.15rem;}
+.crisis-box em{color:var(--g);font-style:italic;}
+.newsletter{padding:2.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(212,160,23,0.12);border-radius:2px;text-align:center;}
+.newsletter h4{color:var(--w);font-size:1.3rem;margin-bottom:1rem;}
+.newsletter p{color:rgba(255,255,255,0.6);margin-bottom:1.8rem;}
+.newsletter form{display:flex;gap:1rem;max-width:500px;margin:0 auto;}
+.newsletter input{flex:1;padding:0.85rem 1.2rem;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:var(--w);border-radius:2px;font-family:'Jost',sans-serif;}
+.newsletter input::placeholder{color:rgba(255,255,255,0.4);}
+.newsletter button{padding:0.85rem 2rem;background:var(--g);color:var(--id);border:none;border-radius:2px;font-weight:700;cursor:pointer;transition:all 0.25s;font-size:0.85rem;letter-spacing:0.05em;}
+.newsletter button:hover{background:var(--gl);}
+.fbot{text-align:center;padding-top:2rem;font-size:0.85rem;}
+.fbot a{color:var(--g);text-decoration:none;cursor:pointer;}
+.fbot a:hover{text-decoration:underline;}
+
+/* SUBPAGE LAYOUT */
+.subbody{max-width:1400px;margin:0 auto;padding:2rem 4rem 6rem;}
+.backbtn{display:inline-flex;align-items:center;gap:0.6rem;color:rgba(255,255,255,0.65);text-decoration:none;font-size:0.85rem;margin-bottom:3rem;transition:color 0.2s;cursor:pointer;}
+.backbtn:hover{color:var(--g);}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  nav{padding:1rem 2rem;}
+  nav.scrolled{padding:0.75rem 2rem;}
+  .nlogo{height:40px;}
+  .nlogo svg{height:40px;}
+  .menu-toggle{display:block;position:relative;z-index:1001;}
+  .nlinks{position:fixed;top:0;right:-100%;width:70%;max-width:300px;height:100vh;background:var(--id);flex-direction:column;align-items:flex-start;padding:5rem 2rem 2rem;gap:1.5rem;transition:right 0.4s cubic-bezier(0.16,1,0.3,1);border-left:1px solid rgba(212,160,23,0.2);}
+  .nlinks.active{right:0;}
+  .nlinks a{font-size:0.8rem;width:100%;}
+  .ncta{display:block;text-align:center;}
+  #home{grid-template-columns:1fr;padding:6rem 2rem 4rem;}
+  .htxt,.himg{padding:3rem 2rem;}
+  .hline{display:none;}
+  .hglow{width:400px;height:400px;}
+  .hstage{width:300px;height:300px;}
+  .hsvg{width:240px;}
+  .roots-grid,.ctgrid{grid-template-columns:1fr;gap:3rem;}
+  .symbol-grid{grid-template-columns:1fr;}
+  .ftop{grid-template-columns:1fr 1fr;gap:3rem;}
+  .products-grid,.episodes-grid{grid-template-columns:repeat(auto-fill,minmax(280px,1fr));}
+  .donation-tiers{grid-template-columns:1fr;}
+  .sec{padding:5rem 2rem;}
+  .subbody{padding:2rem;}
+  .newsletter form{flex-direction:column;}
+}
+@media(max-width:640px){
+  nav{padding:0.8rem 1.5rem;}
+  .nlogo{height:35px;}
+  .nlogo svg{height:35px;}
+  .nlinks{width:85%;max-width:none;}
+  h1{font-size:2.2rem;}
+  h2{font-size:1.8rem;}
+  .sec{padding:4rem 1.5rem;}
+  .subbody{padding:1.5rem;}
+  .hstage{width:250px;height:250px;}
+  .hsvg{width:200px;}
+  .ftop{grid-template-columns:1fr;}
+  .products-grid,.episodes-grid{grid-template-columns:1fr;}
+  .tier-amount{font-size:2.5rem;}
+  .hey{font-size:0.6rem;letter-spacing:0.2em;}
+  .stitle{font-size:0.6rem;}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+<div id="prog"></div>
+<div class="grain"></div>
+
+<nav id="nav">
+  <a onclick="sp('home')" class="nlogo">
+    <svg viewBox="0 0 375 375" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#D4A017" d="M85.875 206.043c-.55 2.183-.79 4.195-.047 7.574.386 1.746.562 4.281.16 6.207-.824-1.547-1.383-3.871-1.418-4.625-.028-.508.366-4.125-1.75-7.86-1.2-2.121-2.168-2.121-3.477-4.593 1.012.441 2.114.523 3.223.453 2.781.14 3.582 1.769 3.309 2.844z"/>
+      <path fill="#000000" d="M187.125-13.094c0-2.719-.403-5.082-1.203-7.094-.805-2.008-1.93-3.562-3.375-4.656-1.437-1.094-3.12-1.641-5.047-1.641-1.898 0-3.57.547-5.015 1.641-1.446 1.094-2.563 2.648-3.36 4.656-.792 2.012-1.187 4.375-1.187 7.094 0 2.719.395 5.082 1.188 7.094.796 2.012 1.913 3.566 3.359 4.656 1.445 1.094 3.117 1.641 5.015 1.641 1.927 0 3.61-.547 5.047-1.64 1.445-1.095 2.57-2.645 3.375-4.657.8-2.012 1.203-4.375 1.203-7.094z"/>
+      <text x="80" y="200" fill="#000000" font-family="serif" font-size="27" font-weight="600">Dekouvri</text>
+    </svg>
+  </a>
+  <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <ul class="nlinks" id="navLinks">
+    <li><a onclick="sp('roots');closeMenu();">Our Roots</a></li>
+    <li><a onclick="sp('podcast');closeMenu();">Podcast</a></li>
+    <li><a onclick="sp('collection');closeMenu();">1804 Collection</a></li>
+    <li><a onclick="sp('support');closeMenu();">Support</a></li>
+    <li><a onclick="sp('contact');closeMenu();">Contact</a></li>
+    <li><a onclick="sp('collection');closeMenu();" class="ncta">Shop</a></li>
+  </ul>
+</nav>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+  <div class="hbg"></div>
+  <div class="hglow"></div>
+  <div class="hline"></div>
+  
+  <div class="htxt">
+    <div class="hey">Haitian Diaspora Mental Health</div>
+    <h1>
+      <span class="l1">Unearthing the silence.</span>
+      <span class="l2">Discovering our peace.</span>
+    </h1>
+    <p class="hsub">The Haitian Diaspora's home for mental health, storytelling, and cultural healing.</p>
+    <div class="hbtns">
+      <a onclick="sp('collection')" class="bg">Shop the Collection</a>
+      <a onclick="sp('podcast')" class="bk">Listen to the Podcast</a>
+    </div>
+  </div>
+  
+  <div class="himg">
+    <div class="hstage">
+      <div class="halo"></div>
+      <div class="r1"></div>
+      <div class="r2"></div>
+      <svg class="hsvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#F0BA2A;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#D4A017;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path class="mpath" d="M100,20 C100,20 85,35 85,50 C85,65 95,75 100,80 C105,75 115,65 115,50 C115,35 100,20 100,20 Z M100,80 L100,120 M85,100 L115,100 M75,130 Q75,150 85,160 M125,130 Q125,150 115,160 M85,160 L85,180 M115,160 L115,180 M70,175 L85,175 M115,175 L130,175" stroke="url(#gold-grad)" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="95" cy="45" r="2" fill="#D4A017"/>
+        <circle cx="105" cy="45" r="2" fill="#D4A017"/>
+        <circle cx="100" cy="90" r="8" fill="url(#gold-grad)" opacity="0.6"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- OUR ROOTS PAGE -->
+<div id="roots" class="page sec dk">
+  <div class="subbody">
+    <a class="backbtn" onclick="sp('home')">← Back to Home</a>
+    
+    <div class="stitle">Our Foundation</div>
+    <h2>Our Roots</h2>
+    <p class="intro">We are Dekouvri — a movement born from the intersection of cultural pride and mental wellness, dedicated to transforming how the Haitian diaspora approaches healing.</p>
+    
+    <div class="roots-grid">
+      <div class="roots-card">
+        <h3>Mission</h3>
+        <p>Dekouvri transforms the mental health landscape for the Haitian community by providing culturally resonant, Haitian Creole-first resources and dialogue. We bridge the gap between tradition and therapy, fostering a safe space for authentic storytelling and self-discovery. Our mission is to empower every individual to unearth their own path to healing, one conversation at a time.</p>
+      </div>
+      
+      <div class="roots-card">
+        <h3>Vision</h3>
+        <p>A world where the Haitian diaspora thrives in mental and emotional wellness, free from the constraints of stigma, judgment, or shame. We envision a community where seeking help is celebrated as a strength, and where every individual is equipped to reclaim their narrative and their peace.</p>
+      </div>
+    </div>
+    
+    <div class="symbolism">
+      <h3>Understanding the MindRoots</h3>
+      <div class="symbol-grid">
+        <div class="symbol-item">
+          <div class="symbol-icon">🧠</div>
+          <h4>The Brain</h4>
+          <p>Represents our mental landscape, the site of both struggle and strength. Every thought, every memory, every moment of clarity begins here.</p>
+        </div>
+        
+        <div class="symbol-item">
+          <div class="symbol-icon">🌱</div>
+          <h4>The Roots</h4>
+          <p>Symbolize our connection to culture, ancestry, and community. Deep roots ground us while allowing growth toward the light.</p>
+        </div>
+        
+        <div class="symbol-item">
+          <div class="symbol-icon">💡</div>
+          <h4>The Lightbulb</h4>
+          <p>The moment of discovery — that "Aha!" when silence breaks and healing begins. Illumination after darkness.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="roots-card" style="margin-top:4rem;max-width:900px;margin-left:auto;margin-right:auto;">
+      <h3>A Letter from the Heart</h3>
+      <p style="font-style:italic;color:rgba(255,255,255,0.75);line-height:1.95;">For too long, our community has carried the weight of silence — a silence born from stigma, from cultural expectations, from the belief that strength means suffering alone. But I've learned that true courage isn't found in hiding our struggles; it's found in the moment we choose to speak them aloud.</p>
+      <p style="color:rgba(255,255,255,0.75);line-height:1.95;">Dekouvri exists because I believe every story matters. Every moment of discovery — no matter how small — is a step toward collective healing. This is more than a brand. It's a sanctuary. A space where you can be seen, heard, and held without judgment.</p>
+      <p style="color:rgba(255,255,255,0.75);line-height:1.95;margin-bottom:0;">Welcome home. <em style="color:#D4A017;">Byenvini lakay ou.</em></p>
+    </div>
+  </div>
+</div>
+
+<!-- PODCAST & STORIES PAGE -->
+<div id="podcast" class="page">
+  <div class="podcast-hero">
+    <div class="stitle" style="justify-content:center;">The Voice of Discovery</div>
+    <h2 style="color:var(--w);max-width:800px;margin:0 auto 1.5rem;">Podcast & Stories</h2>
+    <p style="color:rgba(255,255,255,0.65);max-width:680px;margin:0 auto;font-size:1.05rem;">Real conversations about mental health, culture, and the courage to break the silence. Each episode is a bridge — connecting struggle to strength, tradition to healing.</p>
+  </div>
+  
+  <div class="sec lt">
+    <div class="subbody">
+      <div class="stitle">Featured Episode</div>
+      <h3 style="color:var(--i);margin-bottom:2rem;">Latest from Dekouvri</h3>
+      
+      <div class="podcast-player">
+        <p style="color:rgba(255,255,255,0.7);text-align:center;padding:3rem;">
+          <strong style="color:var(--g);">Podcast Player</strong><br>
+          <span style="font-size:0.9rem;opacity:0.8;">Embed your Spotify, YouTube, or podcast platform player here</span>
+        </p>
+      </div>
+      
+      <div class="stitle">Discovery Stories</div>
+      <h3 style="color:var(--i);margin-bottom:1.5rem;">Recent Episodes & Transcripts</h3>
+      
+      <div class="episodes-grid">
+        <div class="episode-card" style="background:var(--w);border-color:rgba(27,31,75,0.12);">
+          <h4 style="color:var(--i);">Episode 1: Breaking the Silence</h4>
+          <p style="color:var(--m);">An introduction to the mission and why mental health conversations matter in our community. <em>Poukisa nou dwe pale?</em></p>
+        </div>
+        
+        <div class="episode-card" style="background:var(--w);border-color:rgba(27,31,75,0.12);">
+          <h4 style="color:var(--i);">Episode 2: The Weight of Expectations</h4>
+          <p style="color:var(--m);">Exploring how cultural pressure shapes our mental health and what it means to honor both heritage and healing.</p>
+        </div>
+        
+        <div class="episode-card" style="background:var(--w);border-color:rgba(27,31,75,0.12);">
+          <h4 style="color:var(--i);">Episode 3: Your Story Matters</h4>
+          <p style="color:var(--m);">Listener submissions and community voices sharing their moments of discovery and breakthrough.</p>
+        </div>
+      </div>
+      
+      <div class="submit-box">
+        <h3>Your Story is a Bridge.</h3>
+        <p>Share your discovery journey with us. Every story we tell gives someone else permission to heal.</p>
+        <a onclick="sp('contact')" class="bk" style="border-color:rgba(255,255,255,0.35);color:var(--w);">Submit Your Story →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 1804 COLLECTION PAGE -->
+<div id="collection" class="page sec lt">
+  <div class="subbody">
+    <a class="backbtn" onclick="sp('home')" style="color:var(--m);">← Back to Home</a>
+    
+    <div class="stitle">The 1804 Collection</div>
+    <h2>Collectibles for the Journey</h2>
+    <div class="collection-intro">
+      <p class="intro">More than merchandise — these are tools for discovery. Each piece is designed to accompany you on your path to healing, rooted in culture and crafted with intention.</p>
+    </div>
+    
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-img">🎒</div>
+        <div class="product-info">
+          <div class="product-tag">The Carry</div>
+          <h4>Indigo Tote Bag</h4>
+          <p>Carry your journey with pride. Durable, spacious, and adorned with the MindRoots symbol.</p>
+          <div class="product-price">$24.00</div>
+          <button class="bg" style="width:100%;">Add to Cart</button>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <div class="product-img">📓</div>
+        <div class="product-info">
+          <div class="product-tag">The Reflection</div>
+          <h4>Discovery Notebook & Pen</h4>
+          <p>For your thoughts, prompts, and moments of clarity. Guided pages for self-discovery.</p>
+          <div class="product-price">$18.04</div>
+          <button class="bg" style="width:100%;">Add to Cart</button>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <div class="product-img">📌</div>
+        <div class="product-info">
+          <div class="product-tag">The Statement</div>
+          <h4>"Mwen pa kache ankò" Pin</h4>
+          <p>"I'm not hiding anymore." Wear your truth boldly. A symbol of courage and visibility.</p>
+          <div class="product-price">$8.04</div>
+          <button class="bg" style="width:100%;">Add to Cart</button>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <div class="product-img">🕯️</div>
+        <div class="product-info">
+          <div class="product-tag">The Atmosphere</div>
+          <h4>Saffron Gold "Limyè" Candle</h4>
+          <p>Light. Warmth. Peace. A candle to set the mood for reflection and healing.</p>
+          <div class="product-price">$22.00</div>
+          <button class="bg" style="width:100%;">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUPPORT PAGE -->
+<div id="support" class="page sec dk">
+  <div class="subbody">
+    <a class="backbtn" onclick="sp('home')">← Back to Home</a>
+    
+    <div class="stitle">Join the Mission</div>
+    <h2>Sipòte Misyon an</h2>
+    <p class="intro">Every contribution helps us create more resources, reach more people, and break more silence. Your support directly funds bilingual mental health content, podcast production, and community outreach.</p>
+    
+    <div class="donation-tiers">
+      <div class="tier-card">
+        <div class="tier-amount">$18.04</div>
+        <div class="tier-name">The Independence Tier</div>
+        <p class="tier-desc">Help us produce one bilingual mental health resource guide for the community.</p>
+      </div>
+      
+      <div class="tier-card">
+        <div class="tier-amount">$50</div>
+        <div class="tier-name">The Light Tier</div>
+        <p class="tier-desc">Support the production of one full podcast episode, including research and editing.</p>
+      </div>
+      
+      <div class="tier-card">
+        <div class="tier-amount">Custom</div>
+        <div class="tier-name">Your Amount</div>
+        <p class="tier-desc">Every contribution matters. Give what feels right for you — we're grateful for it all.</p>
+      </div>
+    </div>
+    
+    <div class="impact-note">
+      <p style="margin:0;"><strong style="color:var(--g);">100% Transparency:</strong> Every dollar donated goes directly toward creating mental health resources, producing podcast content, and expanding our reach within the Haitian diaspora. No overhead, no middlemen — just impact.</p>
+    </div>
+    
+    <div style="text-align:center;margin-top:4rem;">
+      <button class="bg" style="font-size:0.85rem;padding:1.2rem 3rem;">Make a Contribution →</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div id="contact" class="page">
+  <div class="contact-hero">
+    <h1 style="color:var(--w);font-weight:300;">Let's Start the <em style="color:var(--g);font-style:italic;">Conversation.</em></h1>
+    <p class="creole">Ann kòmanse koze a.</p>
+    <p style="color:rgba(255,255,255,0.65);max-width:680px;margin:0 auto;line-height:1.8;">Whether you have a question about our collectibles, want to partner with the mission, or simply need to share a piece of your journey — we are listening.</p>
+  </div>
+  
+  <div class="sec lt">
+    <div class="subbody">
+      <div class="ctgrid">
+        <div>
+          <div class="stlead">"Your Story is <em>a Bridge.</em>"</div>
+          <p class="stintro">We believe that when one person finds the courage to speak, they give others the permission to heal. Do you have a story of "Discovery"? A moment where you unzipped the silence and faced a hidden struggle?<br><br>We would love to feature your journey — anonymously or by name — on the <strong>Dekouvri Podcast.</strong></p>
+          
+          <form onsubmit="return false;">
+            <label class="flbl">Name (or Alias)</label>
+            <input type="text" class="finput" placeholder="How would you like to be called?">
+            
+            <label class="flbl">Email Address</label>
+            <input type="email" class="finput" placeholder="hello@yourmail.com">
+            
+            <label class="flbl">Your Story Title</label>
+            <input type="text" class="finput" placeholder="Give your story a name...">
+            
+            <label class="flbl">Your Discovery</label>
+            <textarea class="finput" placeholder="Tell us about your 'Aha!' moment. What did you discover about yourself? What did you uncover when the silence broke?"></textarea>
+            
+            <div class="fhint">All submissions are held in confidence. Nothing is published without your explicit permission.</div>
+            
+            <div class="perms">
+              <input type="checkbox" id="perm">
+              <label for="perm">I give Dekouvri permission to share this story (in whole or in part) on the Dekouvri Podcast and/or social media. I understand I will be contacted before anything is published.</label>
+            </div>
+            
+            <div style="margin-top:1.8rem;">
+              <button type="submit" class="bg" style="width:100%;padding:1rem;font-size:0.75rem;">Send My Story →</button>
+            </div>
+          </form>
+        </div>
+        
+        <div>
+          <div class="ccard">
+            <h3>General Inquiries</h3>
+            <p>For business, collectibles, grant-related outreach, media requests, or collaborations — we would love to hear from you.</p>
+            <a href="mailto:hello@dekouvri.com" class="emlink">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,12 2,6"/>
+              </svg>
+              hello@dekouvri.com
+            </a>
+          </div>
+          
+          <div class="ccard">
+            <h3>Follow the Journey</h3>
+            <p>We share mental health prompts, behind-the-scenes moments, and Dekouvri stories every week.</p>
+            <div class="csocs">
+              <a href="#" class="csoc">Instagram</a>
+              <a href="#" class="csoc">TikTok</a>
+              <a href="#" class="csoc">Facebook</a>
+              <a href="#" class="csoc">LinkedIn</a>
+            </div>
+          </div>
+          
+          <div class="loccrd">
+            <h3>📍 Where We Are</h3>
+            <p><strong>Based in South Florida</strong><br>Serving the Global Haitian Diaspora<br><br><a href="http://www.dekouvrimission.com">www.dekouvrimission.com</a><br><a href="mailto:hello@dekouvri.com">hello@dekouvri.com</a></p>
+          </div>
+          
+          <div class="cricrd">
+            <div class="ctag">Need Immediate Support?</div>
+            <p>If you are in crisis, please don't wait. <strong>Call or text 988</strong> (available 24/7). <em>Ou pa poukont ou.</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TERMS OF SERVICE PAGE -->
+<div id="terms" class="page sec lt">
+  <div class="subbody">
+    <a class="backbtn" onclick="sp('home')" style="color:var(--m);">← Back to Home</a>
+    
+    <div class="legal-page">
+      <h1 style="color:var(--i);font-size:3rem;margin-bottom:2rem;">Terms of Service</h1>
+      <p style="color:var(--m);font-size:1.05rem;margin-bottom:3rem;">Last Updated: February 2026</p>
+      
+      <h2>Welcome to Dekouvri</h2>
+      <p>By accessing or using the Dekouvri website, purchasing our collectibles, or engaging with our content, you agree to be bound by these Terms of Service. Please read them carefully.</p>
+      
+      <h3>1. "As-Is" Clause for Collectibles</h3>
+      <p>All items in the Dekouvri 1804 Collection are sold on an <strong>"as-is" basis</strong>. While we strive for the highest quality in design and production, we make no warranties regarding the fitness of products for any specific psychological result or therapeutic outcome. Our collectibles are tools for reflection and cultural expression, not medical devices or guaranteed solutions for mental health conditions.</p>
+      
+      <h3>2. Intellectual Property</h3>
+      <p>The <strong>"MindRoots" logo</strong>, the name <strong>"Dekouvri"</strong>, and all original poetry, prompts, podcast content, and creative works are the sole property of Dekouvri LLC. Unauthorized reproduction, distribution, or commercial use of these materials is strictly prohibited without explicit written permission.</p>
+      
+      <h3>3. Limitation of Liability</h3>
+      <p>Dekouvri LLC shall not be held liable for any emotional or psychological distress arising from the use of our journals, prompts, podcast content, or any other materials. <em>Discovery is a personal journey</em> taken at the user's own risk. Our resources are designed to support and inspire, but they are not a substitute for professional mental health care.</p>
+      
+      <h3>4. Professional Disclaimer</h3>
+      <p>Dekouvri is not a licensed mental health provider. Our content, including podcast episodes and written resources, is intended for <strong>educational and inspirational purposes only</strong>. If you are experiencing a mental health crisis or need professional support, please contact a licensed therapist or call the National Suicide Prevention Lifeline at <strong>988</strong>.</p>
+      
+      <h3>5. User Conduct</h3>
+      <p>Users agree to engage with our platform respectfully and in accordance with applicable laws. We reserve the right to remove content or restrict access to users who violate these terms or engage in harmful behavior.</p>
+      
+      <h3>6. Changes to Terms</h3>
+      <p>Dekouvri LLC reserves the right to update these Terms of Service at any time. Continued use of our website or services after changes are posted constitutes acceptance of the revised terms.</p>
+      
+      <h3>7. Contact</h3>
+      <p>For questions about these Terms of Service, please contact us at <a href="mailto:hello@dekouvri.com">hello@dekouvri.com</a>.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PRIVACY POLICY PAGE -->
+<div id="privacy" class="page sec lt">
+  <div class="subbody">
+    <a class="backbtn" onclick="sp('home')" style="color:var(--m);">← Back to Home</a>
+    
+    <div class="legal-page">
+      <h1 style="color:var(--i);font-size:3rem;margin-bottom:2rem;">Privacy Policy</h1>
+      <p style="color:var(--m);font-size:1.05rem;margin-bottom:3rem;">Last Updated: February 2026 | Compliant with 2026 Privacy Standards</p>
+      
+      <h2>Your Privacy Matters</h2>
+      <p>At Dekouvri, we are committed to protecting your personal information. This Privacy Policy explains what data we collect, how we use it, and your rights regarding your information.</p>
+      
+      <h3>1. Data Collection</h3>
+      <p>We collect only the data necessary to fulfill your orders and send you "Discovery" updates via our newsletter. This includes:</p>
+      <ul>
+        <li><strong>Contact Information:</strong> Name, email address, and shipping address (for collectible orders)</li>
+        <li><strong>Order Information:</strong> Purchase history and payment details (processed securely through third-party payment processors)</li>
+        <li><strong>Newsletter Data:</strong> Email addresses for those who opt in to receive mental health prompts and brand updates</li>
+      </ul>
+      <p><strong>We do not sell your personal information to third parties.</strong></p>
+      
+      <h3>2. Sensitive Data</h3>
+      <p>While we discuss mental health topics through our podcast and resources, we <strong>do not collect or store private medical records or "Sensitive Health Data"</strong> as defined by 2026 privacy regulations. Story submissions shared via our contact form are held in strict confidence and are never published without your explicit written permission.</p>
+      
+      <h3>3. How We Use Your Data</h3>
+      <p>Your information is used solely for:</p>
+      <ul>
+        <li>Processing and shipping collectible orders</li>
+        <li>Sending newsletter updates (only if you've opted in)</li>
+        <li>Responding to your inquiries and support requests</li>
+        <li>Improving our website and user experience</li>
+      </ul>
+      
+      <h3>4. Data Security</h3>
+      <p>We implement industry-standard security measures to protect your personal information from unauthorized access, disclosure, or destruction. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+      
+      <h3>5. Third-Party Services</h3>
+      <p>We may use trusted third-party services (such as payment processors, email marketing platforms, and print-on-demand fulfillment) to operate our business. These partners are contractually obligated to protect your data and use it only for the specific services they provide to us.</p>
+      
+      <h3>6. Your Rights</h3>
+      <p>In accordance with <strong>Florida law and federal privacy standards</strong>, you have the right to:</p>
+      <ul>
+        <li><strong>Access:</strong> Request a copy of the personal data we hold about you</li>
+        <li><strong>Correction:</strong> Request corrections to inaccurate or incomplete data</li>
+        <li><strong>Deletion:</strong> Request the deletion of your data at any time by contacting us at <a href="mailto:hello@dekouvri.com">hello@dekouvri.com</a></li>
+        <li><strong>Opt-Out:</strong> Unsubscribe from our newsletter at any time via the link in our emails</li>
+      </ul>
+      
+      <h3>7. Cookies and Tracking</h3>
+      <p>We use minimal cookies to enhance your browsing experience and analyze website traffic. You can disable cookies in your browser settings, though some features of the site may not function properly without them.</p>
+      
+      <h3>8. Children's Privacy</h3>
+      <p>Our website is not intended for individuals under the age of 13. We do not knowingly collect personal information from children. If you believe we have inadvertently collected such information, please contact us immediately.</p>
+      
+      <h3>9. Changes to This Policy</h3>
+      <p>We reserve the right to update this Privacy Policy as needed to reflect changes in our practices or legal requirements. Any updates will be posted on this page with a revised "Last Updated" date.</p>
+      
+      <h3>10. Contact Us</h3>
+      <p>If you have questions about this Privacy Policy or wish to exercise your data rights, please contact us at:<br><strong>Email:</strong> <a href="mailto:hello@dekouvri.com">hello@dekouvri.com</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fcontent">
+    <div class="crisis-box">
+      <h4>Beswen èd kounye a? <span style="font-weight:300;opacity:0.8;">(Need help now?)</span></h4>
+      <p class="crisis-creole">Ou pa poukont ou.</p>
+      <p>If you are in distress, please don't wait. <strong>Call or text 988</strong> (in the US) or contact the National Suicide Prevention Lifeline. Help is available 24/7, and you are never alone on this journey.</p>
+    </div>
+    
+    <!-- DONATION SECTION ON HOMEPAGE -->
+    <div class="sec dk" style="padding:5rem 0;margin-bottom:3rem;border-top:1px solid rgba(212,160,23,0.12);border-bottom:1px solid rgba(212,160,23,0.12);">
+      <div class="stitle" style="justify-content:center;margin-bottom:1.5rem;">Join the Mission</div>
+      <h2 style="text-align:center;max-width:800px;margin:0 auto 1.5rem;">Sipòte Misyon an</h2>
+      <p class="intro" style="text-align:center;max-width:680px;margin:0 auto 3rem;color:rgba(255,255,255,0.68);">Every contribution helps us create more resources, reach more people, and break more silence. Your support directly funds bilingual mental health content, podcast production, and community outreach.</p>
+      
+      <div class="donation-tiers" style="max-width:1200px;margin:0 auto;">
+        <div class="tier-card">
+          <div class="tier-amount">$18.04</div>
+          <div class="tier-name">The Independence Tier</div>
+          <p class="tier-desc">Help us produce one bilingual mental health resource guide for the community.</p>
+        </div>
+        
+        <div class="tier-card">
+          <div class="tier-amount">$50</div>
+          <div class="tier-name">The Light Tier</div>
+          <p class="tier-desc">Support the production of one full podcast episode, including research and editing.</p>
+        </div>
+        
+        <div class="tier-card">
+          <div class="tier-amount">Custom</div>
+          <div class="tier-name">Your Amount</div>
+          <p class="tier-desc">Every contribution matters. Give what feels right for you — we're grateful for it all.</p>
+        </div>
+      </div>
+      
+      <div class="impact-note" style="max-width:1000px;margin:3rem auto 0;">
+        <p style="margin:0;"><strong style="color:var(--g);">100% Transparency:</strong> Every dollar donated goes directly toward creating mental health resources, producing podcast content, and expanding our reach within the Haitian diaspora. No overhead, no middlemen — just impact.</p>
+      </div>
+      
+      <div style="text-align:center;margin-top:3rem;">
+        <button class="bg" style="font-size:0.85rem;padding:1.2rem 3rem;">Make a Contribution →</button>
+      </div>
+    </div>
+    
+    <div class="ftop">
+      <div class="fbrand">
+        <h4>Dekouvri</h4>
+        <p>Unearthing the silence. Discovering our peace. A digital sanctuary for the Haitian diaspora's mental health journey.</p>
+        <div class="fsoc">
+          <a href="#" aria-label="Instagram">IG</a>
+          <a href="#" aria-label="TikTok">TT</a>
+          <a href="#" aria-label="Facebook">FB</a>
+          <a href="#" aria-label="LinkedIn">LI</a>
+        </div>
+      </div>
+      
+      <div class="fcol">
+        <h5>Explore</h5>
+        <a onclick="sp('roots')">Our Roots</a>
+        <a onclick="sp('podcast')">Podcast</a>
+        <a onclick="sp('collection')">1804 Collection</a>
+        <a onclick="sp('support')">Support the Mission</a>
+      </div>
+      
+      <div class="fcol">
+        <h5>Legal</h5>
+        <a onclick="sp('terms')">Terms of Service</a>
+        <a onclick="sp('privacy')">Privacy Policy</a>
+        <a onclick="sp('contact')">Contact Us</a>
+      </div>
+      
+      <div class="fcol">
+        <h5>Resources</h5>
+        <a href="#">988 Crisis Line</a>
+        <a href="#">Mental Health Toolkit</a>
+        <a href="#">Community Forum</a>
+      </div>
+    </div>
+    
+    <div class="newsletter">
+      <h4>Join the Discovery</h4>
+      <p>Get mental health prompts and brand updates in your inbox.</p>
+      <form onsubmit="return false;">
+        <input type="email" placeholder="your@email.com">
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+    
+    <div class="fbot">
+      <p>&copy; 2026 Dekouvri LLC. All rights reserved. | Based in South Florida, Serving the Global Diaspora | <a onclick="sp('terms')">Terms</a> · <a onclick="sp('privacy')">Privacy</a></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Page Navigation
+function sp(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(page).classList.add('active');
+  window.scrollTo(0, 0);
+  closeMenu();
+}
+
+// Mobile Menu Toggle
+function toggleMenu() {
+  const navLinks = document.getElementById('navLinks');
+  const menuToggle = document.getElementById('menuToggle');
+  navLinks.classList.toggle('active');
+  menuToggle.classList.toggle('active');
+}
+
+function closeMenu() {
+  const navLinks = document.getElementById('navLinks');
+  const menuToggle = document.getElementById('menuToggle');
+  navLinks.classList.remove('active');
+  menuToggle.classList.remove('active');
+}
+
+// Custom cursor (desktop only)
+if (window.innerWidth > 1024) {
+  const cur = document.getElementById('cur'), cur2 = document.getElementById('cur2');
+  if (cur && cur2) {
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX+'px'; cur.style.top = e.clientY+'px';
+      cur2.style.left = e.clientX+'px'; cur2.style.top = e.clientY+'px';
+    });
+    document.querySelectorAll('a, button, input, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cur2.style.width = '50px';
+        cur2.style.height = '50px';
+        cur2.style.borderColor = 'rgba(212,160,23,0.9)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cur2.style.width = '32px';
+        cur2.style.height = '32px';
+        cur2.style.borderColor = 'rgba(212,160,23,0.6)';
+      });
+    });
+  }
+}
+
+// Scroll progress
+window.addEventListener('scroll', () => {
+  const h = document.documentElement, b = document.body;
+  const st = 'scrollTop', sh = 'scrollHeight';
+  const percent = (h[st]||b[st]) / ((h[sh]||b[sh]) - h.clientHeight) * 100;
+  document.getElementById('prog').style.width = percent + '%';
+});
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 100) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', (e) => {
+  const navLinks = document.getElementById('navLinks');
+  const menuToggle = document.getElementById('menuToggle');
+  if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+    closeMenu();
+  }
+});
+</script>
+
+</body>
+</html>
