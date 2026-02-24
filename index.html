@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dekouvri — Unearthing the Silence. Discovering Our Peace.</title>
+<meta name="description" content="A digital sanctuary for the Haitian Diaspora. Unearthing the silence and discovering peace through bilingual mental health resources and storytelling.">
+<meta property="og:title" content="Dekouvri — Unearthing the Silence.">
+<meta property="og:description" content="Mental health and cultural healing for the Haitian Diaspora.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Jost:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -139,6 +142,84 @@ h3{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;marg
 .tier-desc{color:rgba(255,255,255,0.65);line-height:1.75;font-size:0.95rem;}
 .impact-note{margin-top:4rem;padding:2.5rem;background:linear-gradient(135deg,rgba(196,98,45,0.12),rgba(212,160,23,0.08));border-radius:2px;border-left:4px solid var(--g);}
 .impact-note p{color:rgba(255,255,255,0.75);font-size:1.05rem;line-height:1.8;}
+
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+.pcard {
+  background: var(--w);
+  border: 1px solid var(--tp);
+  transition: transform 0.3s ease;
+}
+
+.pcard:hover {
+  transform: translateY(-10px);
+  border-color: var(--g);
+}
+
+.pimg-wrap {
+  height: 300px;
+  background: var(--cr);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pimg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ptag {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(6, 10, 32, 0.85);
+  color: var(--w);
+  padding: 0.35rem 0.7rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pinfo {
+  padding: 1.25rem;
+}
+
+.pinfo h3 {
+  margin-bottom: 0.5rem;
+}
+
+.pinfo p {
+  color: var(--m);
+  line-height: 1.7;
+}
+
+.pprice {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  color: var(--t);
+  margin: 1rem 0;
+}
+
+.pbtn {
+  display: block;
+  text-align: center;
+  padding: 0.8rem;
+  background: var(--i);
+  color: var(--w);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
 
 /* TERMS & PRIVACY PAGES */
 .legal-page{max-width:900px;margin:0 auto;padding:4rem 2rem;}
@@ -449,48 +530,43 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
       <p class="intro">More than merchandise — these are tools for discovery. Each piece is designed to accompany you on your path to healing, rooted in culture and crafted with intention.</p>
     </div>
     
-    <div class="products-grid">
-      <div class="product-card">
-        <div class="product-img">🎒</div>
-        <div class="product-info">
-          <div class="product-tag">The Carry</div>
-          <h4>Indigo Tote Bag</h4>
-          <p>Carry your journey with pride. Durable, spacious, and adorned with the MindRoots symbol.</p>
-          <div class="product-price">$24.00</div>
-          <button class="bg" style="width:100%;">Add to Cart</button>
+    <div class="pgrid">
+      <div class="pcard">
+        <div class="pimg-wrap">
+          <img src="https://images.unsplash.com/photo-1544816153-12ad5d713312?q=80&w=500" alt="Midnight Indigo Tote" class="pimg">
+          <div class="ptag">The Foundation</div>
+        </div>
+        <div class="pinfo">
+          <h3>The "MindRoots" Tote</h3>
+          <p>Hand-pressed Midnight Indigo canvas. A carry-all for your journey.</p>
+          <div class="pprice">$18.04</div>
+          <a href="YOUR_STRIPE_LINK_HERE" class="pbtn">Add to Sanctuary</a>
         </div>
       </div>
-      
-      <div class="product-card">
-        <div class="product-img">📓</div>
-        <div class="product-info">
-          <div class="product-tag">The Reflection</div>
-          <h4>Discovery Notebook & Pen</h4>
+
+      <div class="pcard">
+        <div class="pimg-wrap">
+          <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?q=80&w=500" alt="Discovery Notebook" class="pimg">
+          <div class="ptag">The Reflection</div>
+        </div>
+        <div class="pinfo">
+          <h3>Discovery Notebook</h3>
           <p>For your thoughts, prompts, and moments of clarity. Guided pages for self-discovery.</p>
-          <div class="product-price">$18.04</div>
-          <button class="bg" style="width:100%;">Add to Cart</button>
+          <div class="pprice">$18.04</div>
+          <a href="YOUR_STRIPE_LINK_HERE" class="pbtn">Add to Sanctuary</a>
         </div>
       </div>
-      
-      <div class="product-card">
-        <div class="product-img">📌</div>
-        <div class="product-info">
-          <div class="product-tag">The Statement</div>
-          <h4>"Mwen pa kache ankò" Pin</h4>
-          <p>"I'm not hiding anymore." Wear your truth boldly. A symbol of courage and visibility.</p>
-          <div class="product-price">$8.04</div>
-          <button class="bg" style="width:100%;">Add to Cart</button>
+
+      <div class="pcard">
+        <div class="pimg-wrap">
+          <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?q=80&w=500" alt="Limyè Candle" class="pimg">
+          <div class="ptag">The Atmosphere</div>
         </div>
-      </div>
-      
-      <div class="product-card">
-        <div class="product-img">🕯️</div>
-        <div class="product-info">
-          <div class="product-tag">The Atmosphere</div>
-          <h4>Saffron Gold "Limyè" Candle</h4>
+        <div class="pinfo">
+          <h3>Saffron Gold "Limyè" Candle</h3>
           <p>Light. Warmth. Peace. A candle to set the mood for reflection and healing.</p>
-          <div class="product-price">$22.00</div>
-          <button class="bg" style="width:100%;">Add to Cart</button>
+          <div class="pprice">$22.00</div>
+          <a href="YOUR_STRIPE_LINK_HERE" class="pbtn">Add to Sanctuary</a>
         </div>
       </div>
     </div>
@@ -551,24 +627,26 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
           <div class="stlead">"Your Story is <em>a Bridge.</em>"</div>
           <p class="stintro">We believe that when one person finds the courage to speak, they give others the permission to heal. Do you have a story of "Discovery"? A moment where you unzipped the silence and faced a hidden struggle?<br><br>We would love to feature your journey — anonymously or by name — on the <strong>Dekouvri Podcast.</strong></p>
           
-          <form onsubmit="return false;">
+          <form name="discovery-stories" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="discovery-stories" />
+
             <label class="flbl">Name (or Alias)</label>
-            <input type="text" class="finput" placeholder="How would you like to be called?">
+            <input type="text" name="visitor-name" class="finput" placeholder="How would you like to be called?" required>
             
             <label class="flbl">Email Address</label>
-            <input type="email" class="finput" placeholder="hello@yourmail.com">
+            <input type="email" name="email" class="finput" placeholder="hello@yourmail.com" required>
             
             <label class="flbl">Your Story Title</label>
-            <input type="text" class="finput" placeholder="Give your story a name...">
+            <input type="text" name="story-title" class="finput" placeholder="Give your story a name...">
             
             <label class="flbl">Your Discovery</label>
-            <textarea class="finput" placeholder="Tell us about your 'Aha!' moment. What did you discover about yourself? What did you uncover when the silence broke?"></textarea>
+            <textarea name="story-content" class="finput" placeholder="Tell us about your 'Aha!' moment..." required></textarea>
             
             <div class="fhint">All submissions are held in confidence. Nothing is published without your explicit permission.</div>
             
             <div class="perms">
-              <input type="checkbox" id="perm">
-              <label for="perm">I give Dekouvri permission to share this story (in whole or in part) on the Dekouvri Podcast and/or social media. I understand I will be contacted before anything is published.</label>
+              <input type="checkbox" name="permission-granted" id="perm" required>
+              <label for="perm">I give Dekouvri permission to share this story (in whole or in part)...</label>
             </div>
             
             <div style="margin-top:1.8rem;">
@@ -581,12 +659,8 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
           <div class="ccard">
             <h3>General Inquiries</h3>
             <p>For business, collectibles, grant-related outreach, media requests, or collaborations — we would love to hear from you.</p>
-            <a href="mailto:hello@dekouvri.com" class="emlink">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                <polyline points="22,6 12,12 2,6"/>
-              </svg>
-              hello@dekouvri.com
+            <a href="mailto:hello@dekouvrimission.com" class="emlink">
+              hello@dekouvrimission.com
             </a>
           </div>
           
@@ -763,6 +837,7 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
       <div class="fbrand">
         <h4>Dekouvri</h4>
         <p>Unearthing the silence. Discovering our peace. A digital sanctuary for the Haitian diaspora's mental health journey.</p>
+        <p><a href="mailto:hello@dekouvrimission.com" class="emlink">hello@dekouvrimission.com</a></p>
         <div class="fsoc">
           <a href="#" aria-label="Instagram">IG</a>
           <a href="#" aria-label="TikTok">TT</a>
@@ -797,8 +872,9 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
     <div class="newsletter">
       <h4>Join the Discovery</h4>
       <p>Get mental health prompts and brand updates in your inbox.</p>
-      <form onsubmit="return false;">
-        <input type="email" placeholder="your@email.com">
+      <form name="newsletter" method="POST" data-netlify="true">
+        <input type="hidden" name="form-name" value="newsletter" />
+        <input type="email" name="email" placeholder="your@email.com" required>
         <button type="submit">Subscribe</button>
       </form>
     </div>
