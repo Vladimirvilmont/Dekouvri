@@ -177,6 +177,43 @@ h3{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;marg
   object-fit: cover;
 }
 
+.product-gallery { position: relative; width: 100%; height: 100%; }
+.journal-slide,.candle-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.35s ease; }
+.journal-slide.active,.candle-slide.active { opacity: 1; }
+.gal-prev,.gal-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(6,10,32,0.72);
+  color: var(--w);
+  cursor: pointer;
+  z-index: 2;
+}
+.gal-prev { left: 0.65rem; }
+.gal-next { right: 0.65rem; }
+.gal-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 0.8rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.4rem;
+  z-index: 2;
+}
+.gal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(6,10,32,0.25);
+  cursor: pointer;
+}
+.gal-dot.active { background: var(--g); }
+
 .ptag {
   position: absolute;
   top: 1rem;
@@ -231,6 +268,64 @@ h3{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;marg
 .gal-dots{position:absolute;bottom:0.75rem;left:50%;transform:translateX(-50%);display:flex;gap:0.4rem;z-index:3;}
 .gal-dot{width:8px;height:8px;border-radius:50%;border:none;background:rgba(255,255,255,0.5);cursor:pointer;padding:0;}
 .gal-dot.active{background:var(--g);}
+.tote-gallery {
+  position: relative;
+  overflow: hidden;
+  background: #f5f0e8;
+}
+
+.tote-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.tote-slide.active {
+  opacity: 1;
+  position: relative;
+}
+
+.tote-prev, .tote-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.85);
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.tote-prev { left: 10px; }
+.tote-next { right: 10px; }
+
+.tote-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 2;
+}
+
+.tote-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  cursor: pointer;
+}
+
+.tote-dot.active {
+  background: #D4A017;
+}
 
 /* TERMS & PRIVACY PAGES */
 .legal-page{max-width:900px;margin:0 auto;padding:4rem 2rem;}
@@ -435,17 +530,17 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
     
     <div class="stitle">Our Foundation</div>
     <h2>Our Roots</h2>
-    <p class="intro">We are Dekouvri — a movement born from the intersection of cultural pride and mental wellness, dedicated to transforming how the Haitian diaspora approaches healing.</p>
+    <p class="intro">We are Dekouvri — a movement born at the intersection of cultural pride and mental wellness, dedicated to transforming how the Haitian diaspora understands and experiences healing.</p>
     
     <div class="roots-grid">
       <div class="roots-card">
         <h3>Mission</h3>
-        <p>Dekouvri transforms the mental health landscape for the Haitian community by providing culturally resonant, Haitian Creole-first resources and dialogue. We bridge the gap between tradition and therapy, fostering a safe space for authentic storytelling and self-discovery. Our mission is to empower every individual to unearth their own path to healing, one conversation at a time.</p>
+        <p>Dekouvri is committed to transforming the mental health landscape within the Haitian community by providing culturally resonant, Haitian Creole–first resources and dialogue. We bridge the gap between tradition and therapy, creating a safe and empowering space for authentic storytelling and self-discovery. Our mission is to empower individuals to uncover their own path to healing — one conversation at a time.</p>
       </div>
       
       <div class="roots-card">
         <h3>Vision</h3>
-        <p>A world where the Haitian diaspora thrives in mental and emotional wellness, free from the constraints of stigma, judgment, or shame. We envision a community where seeking help is celebrated as a strength, and where every individual is equipped to reclaim their narrative and their peace.</p>
+        <p>We envision a world where the Haitian diaspora thrives in mental and emotional wellness, free from stigma, judgment, and shame. A world where seeking support is recognized as strength, and where every individual is empowered to reclaim their story, their identity, and their peace.</p>
       </div>
     </div>
     
@@ -543,9 +638,20 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
     
     <div class="pgrid">
       <div class="pcard">
-        <div class="pimg-wrap">
-          <img src="https://images.unsplash.com/photo-1591337676887-a217a6970c8a?auto=format&fit=crop&w=500&q=80" alt="MindRoots Tote" class="pimg">
+        <div class="pimg-wrap product-img tote-gallery" id="toteGallery">
+          <img src="/mnt/user-data/uploads/cotton-canvas-tote-bag-1.jpg" class="pimg tote-slide active" alt="MindRoots Tote front">
+          <img src="/mnt/user-data/uploads/cotton-canvas-tote-bag-4.jpg" class="pimg tote-slide" alt="MindRoots Tote worn front">
+          <img src="/mnt/user-data/uploads/cotton-canvas-tote-bag-3.jpg" class="pimg tote-slide" alt="MindRoots Tote back">
+          <img src="/mnt/user-data/uploads/cotton-canvas-tote-bag-2.jpg" class="pimg tote-slide" alt="MindRoots Tote worn back">
           <div class="ptag">The Foundation</div>
+          <button class="tote-prev" aria-label="Previous image">&#8249;</button>
+          <button class="tote-next" aria-label="Next image">&#8250;</button>
+          <div class="tote-dots">
+            <span class="tote-dot active"></span>
+            <span class="tote-dot"></span>
+            <span class="tote-dot"></span>
+            <span class="tote-dot"></span>
+          </div>
         </div>
         <div class="pinfo">
           <h3>The "MindRoots" Heritage Tote</h3>
@@ -557,7 +663,24 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
 
       <div class="pcard">
         <div class="pimg-wrap">
-          <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?q=80&w=500" alt="Discovery Notebook" class="pimg">
+          <div id="journalGallery" class="product-gallery" aria-label="Discovery Notebook gallery">
+            <div class="journal-slide active">
+              <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?q=80&w=1000" alt="Discovery Notebook front cover" class="pimg">
+            </div>
+            <div class="journal-slide">
+              <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=1000" alt="MindRoots journal back cover" class="pimg">
+            </div>
+            <div class="journal-slide">
+              <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1000" alt="Dekouvri journal back cover" class="pimg">
+            </div>
+            <button type="button" class="gal-prev" aria-label="Previous image">‹</button>
+            <button type="button" class="gal-next" aria-label="Next image">›</button>
+            <div class="gal-dots" aria-hidden="true">
+              <button type="button" class="gal-dot active"></button>
+              <button type="button" class="gal-dot"></button>
+              <button type="button" class="gal-dot"></button>
+            </div>
+          </div>
           <div class="ptag">The Reflection</div>
         </div>
         <div class="pinfo">
@@ -1013,6 +1136,40 @@ document.addEventListener('click', (e) => {
     closeMenu();
   }
 });
+
+function initGallery(galleryId) {
+  var gallery = document.getElementById(galleryId);
+  if (!gallery) return;
+  var slides = gallery.querySelectorAll('.tote-slide');
+  var dots = gallery.querySelectorAll('.tote-dot');
+  var current = 0;
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  gallery.querySelector('.tote-prev').addEventListener('click', function(e) {
+    e.stopPropagation();
+    goTo(current - 1);
+  });
+
+  gallery.querySelector('.tote-next').addEventListener('click', function(e) {
+    e.stopPropagation();
+    goTo(current + 1);
+  });
+
+  dots.forEach(function(d, i) {
+    d.addEventListener('click', function() {
+      goTo(i);
+    });
+  });
+}
+
+initGallery('toteGallery');
 </script>
 
 </body>
