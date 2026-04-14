@@ -177,6 +177,43 @@ h3{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;marg
   object-fit: cover;
 }
 
+.product-gallery { position: relative; width: 100%; height: 100%; }
+.journal-slide,.candle-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.35s ease; }
+.journal-slide.active,.candle-slide.active { opacity: 1; }
+.gal-prev,.gal-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(6,10,32,0.72);
+  color: var(--w);
+  cursor: pointer;
+  z-index: 2;
+}
+.gal-prev { left: 0.65rem; }
+.gal-next { right: 0.65rem; }
+.gal-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 0.8rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.4rem;
+  z-index: 2;
+}
+.gal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(6,10,32,0.25);
+  cursor: pointer;
+}
+.gal-dot.active { background: var(--g); }
+
 .ptag {
   position: absolute;
   top: 1rem;
@@ -546,7 +583,24 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
 
       <div class="pcard">
         <div class="pimg-wrap">
-          <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?q=80&w=500" alt="Discovery Notebook" class="pimg">
+          <div id="journalGallery" class="product-gallery" aria-label="Discovery Notebook gallery">
+            <div class="journal-slide active">
+              <img src="https://images.unsplash.com/photo-1531346878377-a5be20888e57?q=80&w=1000" alt="Discovery Notebook front cover" class="pimg">
+            </div>
+            <div class="journal-slide">
+              <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?q=80&w=1000" alt="MindRoots journal back cover" class="pimg">
+            </div>
+            <div class="journal-slide">
+              <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=1000" alt="Dekouvri journal back cover" class="pimg">
+            </div>
+            <button type="button" class="gal-prev" aria-label="Previous image">‹</button>
+            <button type="button" class="gal-next" aria-label="Next image">›</button>
+            <div class="gal-dots" aria-hidden="true">
+              <button type="button" class="gal-dot active"></button>
+              <button type="button" class="gal-dot"></button>
+              <button type="button" class="gal-dot"></button>
+            </div>
+          </div>
           <div class="ptag">The Reflection</div>
         </div>
         <div class="pinfo">
@@ -954,6 +1008,31 @@ window.addEventListener('scroll', () => {
     nav.classList.remove('scrolled');
   }
 });
+
+
+function initGallerySingle(galleryId, slideClass, dotClass) {
+  var gallery = document.getElementById(galleryId);
+  if (!gallery) return;
+  var slides  = gallery.querySelectorAll('.' + slideClass);
+  var dots    = gallery.querySelectorAll('.' + dotClass);
+  if (!slides.length) return;
+  var current = 0;
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    if (dots[current]) dots[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    if (dots[current]) dots[current].classList.add('active');
+  }
+  var prev = gallery.querySelector('.gal-prev');
+  var next = gallery.querySelector('.gal-next');
+  if (prev) prev.addEventListener('click', function(e){e.stopPropagation();goTo(current-1);});
+  if (next) next.addEventListener('click', function(e){e.stopPropagation();goTo(current+1);});
+  dots.forEach(function(d,i){ d.addEventListener('click', function(){ goTo(i); }); });
+}
+
+initGallerySingle('journalGallery', 'journal-slide', 'gal-dot');
+initGallerySingle('candleGallery',  'candle-slide',  'gal-dot');
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
