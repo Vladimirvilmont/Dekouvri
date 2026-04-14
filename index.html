@@ -258,6 +258,16 @@ h3{font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;marg
   text-transform: uppercase;
 }
 
+
+.candle-gallery{position:relative;overflow:hidden;background:#1a1a1a;height:100%;}
+.candle-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.5s ease;}
+.candle-slide.active{opacity:1;position:relative;}
+.gal-prev,.gal-next{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border:1px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.35);color:#fff;font-size:1.2rem;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;}
+.gal-prev{left:0.75rem;}
+.gal-next{right:0.75rem;}
+.gal-dots{position:absolute;bottom:0.75rem;left:50%;transform:translateX(-50%);display:flex;gap:0.4rem;z-index:3;}
+.gal-dot{width:8px;height:8px;border-radius:50%;border:none;background:rgba(255,255,255,0.5);cursor:pointer;padding:0;}
+.gal-dot.active{background:var(--g);}
 .tote-gallery {
   position: relative;
   overflow: hidden;
@@ -683,13 +693,26 @@ footer{background:var(--id);color:rgba(255,255,255,0.62);padding:5rem 4rem 2rem;
 
       <div class="pcard">
         <div class="pimg-wrap">
-          <div style="font-size: 5rem; display: flex; align-items: center; justify-content: center; height: 100%;">📌</div>
-          <div class="ptag">The Statement</div>
+          <div id="candleGallery" class="candle-gallery" aria-label="Scented candle product gallery">
+            <img class="candle-slide active" src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&w=900&q=80" alt="Lifestyle candle shot on a windowsill with a lit clear jar.">
+            <img class="candle-slide" src="https://images.unsplash.com/photo-1631695569905-0566af5d3210?auto=format&fit=crop&w=900&q=80" alt="Dramatic low-light candle shot in a clear jar.">
+            <img class="candle-slide" src="https://images.unsplash.com/photo-1608181831718-7f67106fbf1d?auto=format&fit=crop&w=900&q=80" alt="Dramatic low-light candle shot in an amber jar.">
+            <img class="candle-slide" src="https://images.unsplash.com/photo-1638261844558-9bd43f0e6e5d?auto=format&fit=crop&w=900&q=80" alt="Amber jar candle open with the product label visible.">
+            <button type="button" class="gal-prev" aria-label="Previous candle image">‹</button>
+            <button type="button" class="gal-next" aria-label="Next candle image">›</button>
+            <div class="gal-dots" role="tablist" aria-label="Candle image pagination">
+              <button class="gal-dot active" type="button" aria-label="Show candle image 1"></button>
+              <button class="gal-dot" type="button" aria-label="Show candle image 2"></button>
+              <button class="gal-dot" type="button" aria-label="Show candle image 3"></button>
+              <button class="gal-dot" type="button" aria-label="Show candle image 4"></button>
+            </div>
+          </div>
+          <div class="ptag">The Glow</div>
         </div>
         <div class="pinfo">
-          <h3>"Mwen pa kache ankò" Pin</h3>
-          <p>"I am not hiding anymore." A bold symbol of visibility and courage.</p>
-          <div class="pprice">$8.04</div>
+          <h3>Coconut Apricot Wax Candle</h3>
+          <p>Warm, grounding fragrance in your choice of clear or amber jar (4oz / 9oz).</p>
+          <div class="pprice">From $18.04</div>
           <a href="https://buy.stripe.com/00w4gBelPgep6QAcoiaZi02" class="pbtn">Add to Sanctuary</a>
         </div>
       </div>
@@ -1081,28 +1104,29 @@ window.addEventListener('scroll', () => {
 
 
 function initGallerySingle(galleryId, slideClass, dotClass) {
-  var gallery = document.getElementById(galleryId);
-  if (!gallery) return;
-  var slides  = gallery.querySelectorAll('.' + slideClass);
-  var dots    = gallery.querySelectorAll('.' + dotClass);
+  const root = document.getElementById(galleryId);
+  if (!root) return;
+  const slides = root.querySelectorAll(`.${slideClass}`);
+  const dots = root.querySelectorAll(`.${dotClass}`);
+  const prev = root.querySelector('.gal-prev');
+  const next = root.querySelector('.gal-next');
   if (!slides.length) return;
-  var current = 0;
-  function goTo(n) {
-    slides[current].classList.remove('active');
-    if (dots[current]) dots[current].classList.remove('active');
-    current = (n + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    if (dots[current]) dots[current].classList.add('active');
-  }
-  var prev = gallery.querySelector('.gal-prev');
-  var next = gallery.querySelector('.gal-next');
-  if (prev) prev.addEventListener('click', function(e){e.stopPropagation();goTo(current-1);});
-  if (next) next.addEventListener('click', function(e){e.stopPropagation();goTo(current+1);});
-  dots.forEach(function(d,i){ d.addEventListener('click', function(){ goTo(i); }); });
+
+  let idx = 0;
+  const show = (n) => {
+    idx = (n + slides.length) % slides.length;
+    slides.forEach((slide, i) => slide.classList.toggle('active', i === idx));
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === idx));
+  };
+
+  prev?.addEventListener('click', () => show(idx - 1));
+  next?.addEventListener('click', () => show(idx + 1));
+  dots.forEach((dot, i) => dot.addEventListener('click', () => show(i)));
+
+  setInterval(() => show(idx + 1), 4500);
 }
 
-initGallerySingle('journalGallery', 'journal-slide', 'gal-dot');
-initGallerySingle('candleGallery',  'candle-slide',  'gal-dot');
+initGallerySingle('candleGallery', 'candle-slide', 'gal-dot');
 
 // Close mobile menu when clicking outside
 document.addEventListener('click', (e) => {
